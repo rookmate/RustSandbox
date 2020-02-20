@@ -7,7 +7,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     let config = Config::new(&args).unwrap_or_else(
-        |err| { println!("Could not parse arguments {}", err);
+        |err| { eprintln!("Could not parse arguments {}", err);
                 process::exit(1);
             }
     );
@@ -17,7 +17,7 @@ fn main() {
 
     // Use this instead of unwrap since we don't want to retrieve anything
     if let Err(e) = rusty_grep::run(config){
-        println!("Error: {}", e);
+        eprintln!("Error: {}", e);
         process::exit(1);
     };
 }
