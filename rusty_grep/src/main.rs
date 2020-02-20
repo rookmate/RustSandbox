@@ -1,6 +1,7 @@
 use std::env;
 use std::fs;
 use std::process;
+use std::error::Error;
 
 
 fn main() {
@@ -15,19 +16,20 @@ fn main() {
     println!("Filename: {}", config.filename);
     println!("Finding: {}", config.query);
 
-    let contents = fs::read_to_string(config.filename)
-        .expect("Could not read file");
-
-    println!("File content:\n{}", contents);
+    // Use this instead of unwrap since we don't want to retrieve anything
+    if let Err(e) = run(config){
+        println!("Error: {}", e);
+        process::exit(1);
+    };
 }
 
-
+// Basic conf struct
 struct Config {
     query: String,
     filename: String,
 }
 
-
+// Init a new conf
 impl Config {
     fn new(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
@@ -39,4 +41,13 @@ impl Config {
 
         Ok(Config { query, filename })
     }
+}
+
+// Print content from file
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = fs::read_to_string(config.filename)?;
+
+    println!("File content:\n{}", contents);
+
+    Ok(())
 }
