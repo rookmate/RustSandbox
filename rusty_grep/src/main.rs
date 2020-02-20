@@ -1,8 +1,7 @@
 use std::env;
-use std::fs;
 use std::process;
-use std::error::Error;
 
+use rusty_grep::Config;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -17,37 +16,8 @@ fn main() {
     println!("Finding: {}", config.query);
 
     // Use this instead of unwrap since we don't want to retrieve anything
-    if let Err(e) = run(config){
+    if let Err(e) = rusty_grep::run(config){
         println!("Error: {}", e);
         process::exit(1);
     };
-}
-
-// Basic conf struct
-struct Config {
-    query: String,
-    filename: String,
-}
-
-// Init a new conf
-impl Config {
-    fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("Not enough arguments");
-        }
-
-        let query = args[1].clone();
-        let filename = args[2].clone();
-
-        Ok(Config { query, filename })
-    }
-}
-
-// Print content from file
-fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    let contents = fs::read_to_string(config.filename)?;
-
-    println!("File content:\n{}", contents);
-
-    Ok(())
 }
