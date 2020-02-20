@@ -1,0 +1,9 @@
+This test is something with random
+bare words, split in lines so that we may
+validate that this new rusty tool
+works as expected
+
+Funny enough blabling words is easier
+than what one would expect!
+How will I parse this information is the
+real question. Let's check it out.
