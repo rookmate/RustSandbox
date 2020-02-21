@@ -11,13 +11,21 @@ pub struct Config {
 
 // Init a new conf
 impl Config {
-    pub fn new(args: &[String]) -> Result<Config, &'static str> {
+    pub fn new(mut args: env::Args) -> Result<Config, &'static str> {
         if args.len() < 3 {
             return Err("Not enough arguments");
         }
 
-        let query = args[1].clone();
-        let filename = args[2].clone();
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("No query string."),
+        };
+
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("No filename found."),
+        };
+
         // Checks value of env var from the command line
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
 
