@@ -1,8 +1,15 @@
 fn main() {
-    reverse(1534236469);
+    zigzag_conversion(String::from("PAYPALISHIRING"), 3);
 }
 
-pub fn reverse(x: i32) -> i32 {
+
+pub fn zigzag_conversion(s: String, num_rows: i32) -> String {
+
+    s
+}
+
+
+pub fn reverse_integer(x: i32) -> i32 {
     let flag = x.is_negative();
 
     let s = x.abs().to_string().chars().rev().collect::<String>();
