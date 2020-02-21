@@ -1,10 +1,17 @@
 
+// zigzag_conversion(String::from("PAYPALISHIRING"), 3);
+// zigzag_conversion(String::from("PAYPALISHIRING"), 4);
 pub fn zigzag_conversion(s: String, num_rows: i32) -> String {
 
     s
 }
 
 
+
+// Add this tests in the future in lib.rs
+// reverse(123);
+// reverse(-123);
+// reverse(1534236469);
 pub fn reverse_integer(x: i32) -> i32 {
     let flag = x.is_negative();
 
