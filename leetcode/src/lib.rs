@@ -1,4 +1,64 @@
 use std::collections::BTreeMap;
+use std::i32::MIN;
+use std::i32::MAX;
+
+// my_atoi(String::from("42"));
+// my_atoi(String::from("   -42"));
+// my_atoi(String::from("4193 with words"));
+// my_atoi(String::from("words and 987"));
+// my_atoi(String::from("-91283472332"));
+// my_atoi(String::from("3.14159")));
+// my_atoi(String::from(".1")));
+pub fn my_atoi(str: String) -> i32 {
+    // Finds if number has ".", if so trims it
+    let s: &str = str.split(".").collect::<Vec<_>>()[0].trim();
+    if s.is_empty() {
+        return 0
+    }
+    // String is empty or first elem is alphabetic
+    let chars = s.chars();
+    println!("{:?}", chars);
+    let mut output: String = String::from("");
+    let mut i: i8 = 0;
+    let mut negative: bool = false;
+    let mut numeric: bool = true;
+    for c in chars {
+        if !c.is_numeric() {
+            numeric = false;
+        }
+
+        if c.is_alphabetic() || c.is_whitespace() || !numeric {
+            break;
+        }
+
+        if i != 2 {
+            if c.is_ascii_punctuation() || c.is_alphabetic() {
+                i += 1;
+                if c == '-' {
+                    negative = true;
+                    println!("NEGATIVE {}", negative);
+                }
+            }
+
+            if i == 2 || (i == 1 && s.len() == 1) {
+                return 0
+            }
+        }
+
+        output.push(c);
+    }
+
+    if output.is_empty() || (output.len() == 1 && (output == "-" || output == "+")) {
+        return 0
+    }
+
+    if negative { // Unwraps as an i32, if it busts returns -2^31
+        return output.parse::<i32>().unwrap_or(MIN);
+    } else {
+        return output.parse::<i32>().unwrap_or(MAX);
+    }
+}
+
 
 // zigzag_conversion(String::from("PAYPALISHIRING"), 3);
 // zigzag_conversion(String::from("PAYPALISHIRING"), 4);
@@ -27,12 +87,11 @@ pub fn zigzag_conversion(s: String, num_rows: i32) -> String {
             line += 1;
         } else {
             line -= 1;
-        }
+       }
     }
 
     s_by_line.values().map(|s_by_line| &**s_by_line).collect::<Vec<_>>().join("")
 }
-
 
 
 // Add this tests in the future in lib.rs
