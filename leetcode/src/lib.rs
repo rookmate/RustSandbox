@@ -21,14 +21,16 @@ pub fn my_atoi(str: String) -> i32 {
     let mut output: String = String::from("");
     let mut i: i8 = 0;
     let mut negative: bool = false;
-    let mut numeric: bool = true;
+    let mut numeric: bool = false;
     for c in chars {
-        if !c.is_numeric() {
-            numeric = false;
+        if c.is_alphabetic() ||
+                c.is_whitespace() ||
+                (c.is_ascii_punctuation() && numeric) {
+            break;
         }
 
-        if c.is_alphabetic() || c.is_whitespace() || !numeric {
-            break;
+        if c.is_numeric() && !numeric {
+            numeric = true;
         }
 
         if i != 2 {
@@ -36,7 +38,6 @@ pub fn my_atoi(str: String) -> i32 {
                 i += 1;
                 if c == '-' {
                     negative = true;
-                    println!("NEGATIVE {}", negative);
                 }
             }
 
