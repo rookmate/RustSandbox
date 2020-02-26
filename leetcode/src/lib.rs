@@ -11,53 +11,45 @@ use std::i32::MAX;
 // my_atoi(String::from(".1")));
 pub fn my_atoi(str: String) -> i32 {
     // Finds if number has ".", if so trims it
-    let s: &str = str.split(".").collect::<Vec<_>>()[0].trim();
+    let s: &str = str.split(".").collect::<Vec<_>>()[0].trim_start();
     if s.is_empty() {
         return 0
     }
     // String is empty or first elem is alphabetic
     let chars = s.chars();
     println!("{:?}", chars);
-    let mut output: String = String::from("");
-    let mut i: i8 = 0;
+    let mut s: String = String::from("");
     let mut negative: bool = false;
     let mut numeric: bool = false;
     for c in chars {
-        if c.is_alphabetic() ||
-                c.is_whitespace() ||
-                (c.is_ascii_punctuation() && numeric) {
-            break;
-        }
-
-        if c.is_numeric() && !numeric {
+        if c.is_numeric() {
             numeric = true;
-        }
-
-        if i != 2 {
-            if c.is_ascii_punctuation() || c.is_alphabetic() {
-                i += 1;
+            s.push(c);
+        } else {
+            if !numeric { //It was not a numeric yet
+                numeric = true;
                 if c == '-' {
                     negative = true;
+                    s.push(c);
+                    continue;
+                }
+
+                if c == '+' {
+                    s.push(c);
+                    continue;
                 }
             }
-
-            if i == 2 || (i == 1 && s.len() == 1) {
-                return 0
-            }
+            //We already found a numeric before
+            break;
         }
-
-        output.push(c);
     }
 
-    if output.is_empty() || (output.len() == 1 && (output == "-" || output == "+")) {
+    if s.is_empty() || (s.len() == 1 && (s == "-" || s == "+")) {
         return 0
     }
 
-    if negative { // Unwraps as an i32, if it busts returns -2^31
-        return output.parse::<i32>().unwrap_or(MIN);
-    } else {
-        return output.parse::<i32>().unwrap_or(MAX);
-    }
+    // Unwraps as an i32, if it busts returns -2^31 or 2^31-1
+    return s.parse::<i32>().unwrap_or(if negative { MIN } else { MAX });
 }
 
 
