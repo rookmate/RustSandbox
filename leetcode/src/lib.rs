@@ -2,13 +2,51 @@ use std::collections::BTreeMap;
 use std::i32::MIN;
 use std::i32::MAX;
 
-// my_atoi(String::from("42"));
-// my_atoi(String::from("   -42"));
-// my_atoi(String::from("4193 with words"));
-// my_atoi(String::from("words and 987"));
-// my_atoi(String::from("-91283472332"));
-// my_atoi(String::from("3.14159")));
-// my_atoi(String::from(".1")));
+
+pub fn int_to_roman(num: i32) -> String {
+    let mut num = num;
+    let mut s: String = String::from("");
+    let numerals: BTreeMap<i32, &str> = [
+        (1,    "I"),
+        (4,    "IV"),
+        (5,    "V"),
+        (9,    "IX"),
+        (10,   "X"),
+        (40,   "XL"),
+        (50,   "L"),
+        (90,   "XC"),
+        (100,  "C"),
+        (400,  "CD"),
+        (500,  "D"),
+        (900,  "CM"),
+        (1000, "M")
+    ].iter().cloned().collect();
+
+    println!("ORIGINAL: {}", num);
+    for sv in numerals.iter().rev() {
+        let quotient: i32 = num / sv.0;
+        if num >= *sv.0 {
+            for _ in 0..quotient {
+                s.push_str(sv.1);
+            }
+
+            num = num % sv.0;
+        }
+    }
+
+    s
+}
+
+// my_atoi(String::from("42"))
+// my_atoi(String::from("   -42"))
+// my_atoi(String::from("4193 with words"))
+// my_atoi(String::from("words and 987"))
+// my_atoi(String::from("  -0012a42"))
+// my_atoi(String::from("-"))
+// my_atoi(String::from("+-2"))
+// my_atoi(String::from("2147483648"))
+// my_atoi(String::from("-abc"))
+// my_atoi(String::from("0-1"))
 pub fn my_atoi(str: String) -> i32 {
     // Finds if number has ".", if so trims it
     let s: &str = str.split(".").collect::<Vec<_>>()[0].trim_start();

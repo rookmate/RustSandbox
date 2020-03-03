@@ -1,12 +1,10 @@
 fn main() {
-    println!("{}", leetcode::my_atoi(String::from("42")));
-    println!("{}", leetcode::my_atoi(String::from("   -42")));
-    println!("{}", leetcode::my_atoi(String::from("4193 with words")));
-    println!("{}", leetcode::my_atoi(String::from("words and 987")));
-    println!("{}", leetcode::my_atoi(String::from("  -0012a42")));
-    println!("{}", leetcode::my_atoi(String::from("-")));
-    println!("{}", leetcode::my_atoi(String::from("+-2")));
-    println!("{}", leetcode::my_atoi(String::from("2147483648")));
-    println!("{}", leetcode::my_atoi(String::from("-abc")));
-    println!("{}", leetcode::my_atoi(String::from("0-1")));
+    println!("{}", leetcode::int_to_roman(3));
+    println!("{}", leetcode::int_to_roman(4));
+    println!("{}", leetcode::int_to_roman(6));
+    println!("{}", leetcode::int_to_roman(9));
+    println!("{}", leetcode::int_to_roman(30));
+    println!("{}", leetcode::int_to_roman(58));
+    println!("{}", leetcode::int_to_roman(300));
+    println!("{}", leetcode::int_to_roman(1994));
 }
